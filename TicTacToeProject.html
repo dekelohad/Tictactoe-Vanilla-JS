@@ -1,0 +1,61 @@
+<html>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <title>Tic Tac Toe Game</title>
+        
+        <link rel="icon" 
+      type="image/png" 
+      href="gameFavicon.jpg">
+      
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+            
+
+        <link rel="stylesheet" type="text/css" href="TicTacToeProject.css">
+    </head>
+    <body>
+        <h1>Tic Tac Toe Game:</h1>
+                <div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div> 
+                </div>
+        
+                <div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div> 
+                </div>
+                
+                <div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div> 
+                </div>
+<div id = buttonsDiv>
+    <button id="newGame" class="waves-effect waves-light btn-large">Start a new game</button>
+    <button id="resetScore" class="waves-effect waves-light btn-large">Reset Game Score</button>
+</div>
+  <!--create h2 header for the playersScore and adding the playersScoreHeader class for styling the header.--> 
+    <h2 class = "playersScoreHeader">Game Score:</h2>
+   
+   <!--create div that will contain firstPlayerScoreHeader and secondPlayerScoreHeader,by creating the div we get the style that we set for the divs.-->  
+ <div> 
+   <!--create h5 header for the first player score header and adding the firstPlayerScoreHeader class for styling the header. .-->
+    <h5 id = "firstPlayerScoreHeader">Player &#8544:    
+        <span id ="firstPlayerScoreValue"></span>
+    </h5>
+
+   <!--create h5 header for the second player score header and adding the firstPlayerScoreHeader class for styling the header. .-->
+    <h5 id = "secondPlayerScoreHeader">Player &#8545:
+        <span id ="secondPlayerScoreValue"></span>
+    </h5>
+</div>
+    </body>
+  <script src="TicTacToeProject.js"></script>
+    </html>
+</html>
