@@ -1,32 +1,29 @@
 const ticTacToeGame = {
 
   //grabing  all the elements with the class:"square" will return a HTMLCollection,then we convert this HTMLCollection to an array using the method Array.from.
-//when squareArray is the actually Game Board.
-squareArray : Array.from(document.getElementsByClassName("square")),
+//when board is the actually Game Board.
+board : Array.from(document.getElementsByClassName("square")),
 playersMove: [],
 //track the clickAmount both users clicked.
 availableMoves: 9,
 
 // gameover will tell us if the game was over or not. 
 gameover : false,
-   
 //players score counters.
 firstPlayerScore  : 0 ,
 secondPlayerScore : 0,
 currentPlayer: 'firstPlayer',
-
 //start the game.
 startGame()  
 {
  //initialize the game.
    this.init();
-   //invoke the anonymous function for each element in the squareArray.
-   this.squareArray.forEach((square, index) =>
+   this.board.forEach((cellElement, index) =>
    {
-      square.addEventListener("click", ()=>
+     cellElement.addEventListener("click", ()=>
        {
          //if the current square is empty and the the game was not over yet.
-           if(square.textContent === '' && (!this.gameover))
+           if(cellElement.textContent === '' && (!this.gameover))
            {
                this.availableMoves -- ;
                if(this.currentPlayer === 'firstPlayer'){
@@ -73,7 +70,7 @@ createColorfulBox(index,boxColor){
        SignBox.classList.add('X');   
    } 
        colorfulBox.appendChild(SignBox);
-       this.squareArray[index].appendChild(colorfulBox); 
+       this.board[index].appendChild(colorfulBox); 
 },
 isEqualSymbol(a,b,c){
   return a == b && b == c &&  a != undefined;
@@ -99,7 +96,7 @@ if ((isEqualSymbol(playersMove[0],playersMove[1],playersMove[2]))||
         this.updateGameScore(currentPlayer); 
       }
           
-//if all squares were clicked and we haven't found a winner yet,then we have  a draw.
+//if all cellElement were clicked and we haven't found a winner yet,then we have  a draw.
   if(this.availableMoves === 0 && !(this.gameover) ){
       this.updateGameScore('draw'); 
   }
@@ -126,11 +123,12 @@ else{
   winningMessageTextElement.innerText = "We Have A Draw";
   winningMessageElement.classList.add('winning-message-draw');
 }
-setTimeout(function() {
+setTimeout(()=>{
   winningMessageElement.classList.add('show');
   resetButtons.classList.add('buttons-hide');
 },500);
-setTimeout(function() {
+
+setTimeout(()=> {
   winningMessageElement.classList.remove('show');
   resetButtons.classList.remove('buttons-hide');
 },1500);
@@ -138,10 +136,9 @@ setTimeout(function() {
 
 //delete all the colorful boxes that are currently displayed on the screen.
 deleteColorfulBoxes(){
-//setting the textContent of each square to empty string.
-this.squareArray.forEach(function(sqaure){
- sqaure.textContent = '';
- });
+//setting the textContent of each cellElement to empty string.
+this.board.forEach((cellElement) =>
+{cellElement.textContent = ''; });
 },
 
 //reset players score.
@@ -154,14 +151,22 @@ resetGameScore(){
 document.getElementById("firstPlayerScoreValue").textContent = 0;
 document.getElementById("secondPlayerScoreValue").textContent = 0;
 },
- 
+
+resetWinningMessage(){
+  const winningMessageElement = document.getElementById('winningMessage');
+  winningMessageElement.classList.remove('winning-message-O');
+  winningMessageElement.classList.remove('winning-message-X');
+  winningMessageElement.classList.remove('winning-message-draw');
+},
+
 //Reset the the game board.
 resetGameBoard(){
  ticTacToeGame.playersMove.length  = 0;
- ticTacToeGame.currentPlayer ='firstPlayer';
  ticTacToeGame.availableMoves = 9 ;
- ticTacToeGame.gameover = false;   
+ ticTacToeGame.gameover = false; 
+ ticTacToeGame.currentPlayer ='firstPlayer';  
  ticTacToeGame.deleteColorfulBoxes();
+ ticTacToeGame.resetWinningMessage();
 },
 
 //activate the buttons we have created = with HTML.
@@ -173,6 +178,5 @@ activateButtons(){
    resetPlayersScore.addEventListener('click',this.resetGameScore);
 },
 }
-
 //invoke the startGame function,by invoking the function the game starts.
 ticTacToeGame.startGame();
