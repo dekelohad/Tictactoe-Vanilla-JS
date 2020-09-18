@@ -1,5 +1,7 @@
 const ticTacToeGame = {
+
   //grabing  all the elements with the class:"square" will return a HTMLCollection,then we convert this HTMLCollection to an array using the method Array.from.
+//when squareArray is the actually Game Board.
 squareArray : Array.from(document.getElementsByClassName("square")),
 
 //create Arrays for the 'X' and 'O' symbols so we can track each player moves.
@@ -15,6 +17,12 @@ gameover : false,
 //players score counters.
 firstPlayerScore  : 0 ,
 secondPlayerScore : 0,
+currentPlayer: 'firstPlayer',
+
+//Crete Variables for Player VS Computer Mode:
+ai  :  'X',
+human : 'O',
+ 
 
 //start the game.
 startGame()  
@@ -30,14 +38,15 @@ startGame()
            if(square.textContent === '' && (!this.gameover))
            {
                this.clickedAmount ++ ;
-                 if(this.isEven(this.clickedAmount)){
-                     this.createColorfulBox(index,'red');
-                 }
-                 else{
-                   this.createColorfulBox(index,'blue');
-                 }
-                 let currentSymbol = this.pushSymbolToArraySymbol(square,index);
-                 this.checkForWinner(currentSymbol);
+               if(this.currentPlayer === 'firstPlayer'){
+                this.createColorfulBox(index,'blue');
+               }
+               else{
+                this.createColorfulBox(index,'red');
+               }
+              this.changePlayerTurn(this.currentPlayer);
+              let currentSymbol = this.pushSymbolToArraySymbol(square,index);
+              this.checkForWinner(currentSymbol);
            }
         });
    }); 
@@ -47,8 +56,15 @@ init(){
    this.activateButtons();
    this.resetGameScore();
 },
-isEven(number){ return number % 2 == 0;},
 
+changePlayerTurn(currentPlayer){
+  if(currentPlayer === 'firstPlayer'){
+      this.currentPlayer = 'secondPlayer';
+  }
+  else{
+    this.currentPlayer = 'firstPlayer';
+  }
+},
 //create a colorful box with a sign inside it('X' or 'O') ,for each player move.
 createColorfulBox(index,boxColor){
    let colorfulBox = document.createElement('div');
@@ -162,6 +178,7 @@ document.getElementById("secondPlayerScoreValue").textContent = 0;
 resetGameBoard(){
  ticTacToeGame.xClickedArray.length  = 0;
  ticTacToeGame.oClickedArray.length  =  0;
+ ticTacToeGame.currentPlayer ='firstPlayer';
  ticTacToeGame.clickedAmount = 0 ;
  ticTacToeGame.gameover = false;   
  ticTacToeGame.deleteColorfulBoxes();
