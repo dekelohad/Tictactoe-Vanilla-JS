@@ -5,7 +5,7 @@ const ticTacToeGame = {
 squareArray : Array.from(document.getElementsByClassName("square")),
 playersMove: [],
 //track the clickAmount both users clicked.
-clickedAmount : 0 ,
+availableMoves: 9,
 
 // gameover will tell us if the game was over or not. 
 gameover : false,
@@ -28,7 +28,7 @@ startGame()
          //if the current square is empty and the the game was not over yet.
            if(square.textContent === '' && (!this.gameover))
            {
-               this.clickedAmount ++ ;
+               this.availableMoves -- ;
                if(this.currentPlayer === 'firstPlayer'){
                  this.playersMove[index] = 'O'; 
                  this.createColorfulBox(index,'blue');
@@ -100,7 +100,7 @@ if ((isEqualSymbol(playersMove[0],playersMove[1],playersMove[2]))||
       }
           
 //if all squares were clicked and we haven't found a winner yet,then we have  a draw.
-  if(this.clickedAmount === 9 && !(this.gameover) ){
+  if(this.availableMoves === 0 && !(this.gameover) ){
     alert('Its a draw,keep on trying!');
   }
 },
@@ -126,7 +126,6 @@ setTimeout(() => {
 
 //delete all the colorful boxes that are currently displayed on the screen.
 deleteColorfulBoxes(){
-
 //setting the textContent of each square to empty string.
 this.squareArray.forEach(function(sqaure){
  sqaure.textContent = '';
@@ -148,7 +147,7 @@ document.getElementById("secondPlayerScoreValue").textContent = 0;
 resetGameBoard(){
  ticTacToeGame.playersMove.length  = 0;
  ticTacToeGame.currentPlayer ='firstPlayer';
- ticTacToeGame.clickedAmount = 0 ;
+ ticTacToeGame.availableMoves = 9 ;
  ticTacToeGame.gameover = false;   
  ticTacToeGame.deleteColorfulBoxes();
 },
