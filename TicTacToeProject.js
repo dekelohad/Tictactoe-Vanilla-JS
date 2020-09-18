@@ -3,11 +3,7 @@ const ticTacToeGame = {
   //grabing  all the elements with the class:"square" will return a HTMLCollection,then we convert this HTMLCollection to an array using the method Array.from.
 //when squareArray is the actually Game Board.
 squareArray : Array.from(document.getElementsByClassName("square")),
-
-//create Arrays for the 'X' and 'O' symbols so we can track each player moves.
-xClickedArray : [],
-oClickedArray : [],
-
+playersMove: [],
 //track the clickAmount both users clicked.
 clickedAmount : 0 ,
 
@@ -18,11 +14,6 @@ gameover : false,
 firstPlayerScore  : 0 ,
 secondPlayerScore : 0,
 currentPlayer: 'firstPlayer',
-
-//Crete Variables for Player VS Computer Mode:
-ai  :  'X',
-human : 'O',
- 
 
 //start the game.
 startGame()  
@@ -39,14 +30,15 @@ startGame()
            {
                this.clickedAmount ++ ;
                if(this.currentPlayer === 'firstPlayer'){
-                this.createColorfulBox(index,'blue');
+                 this.playersMove[index] = 'O'; 
+                 this.createColorfulBox(index,'blue');
                }
                else{
+                this.playersMove[index] = 'X'; 
                 this.createColorfulBox(index,'red');
                }
+              this.checkForWinner(this.currentPlayer);
               this.changePlayerTurn(this.currentPlayer);
-              let currentSymbol = this.pushSymbolToArraySymbol(square,index);
-              this.checkForWinner(currentSymbol);
            }
         });
    }); 
@@ -56,7 +48,6 @@ init(){
    this.activateButtons();
    this.resetGameScore();
 },
-
 changePlayerTurn(currentPlayer){
   if(currentPlayer === 'firstPlayer'){
       this.currentPlayer = 'secondPlayer';
@@ -84,59 +75,38 @@ createColorfulBox(index,boxColor){
        colorfulBox.appendChild(SignBox);
        this.squareArray[index].appendChild(colorfulBox); 
 },
-//push the current symbol to the symbol array.       
-pushSymbolToArraySymbol(symbol,index)
-{
-   let currentSymbol = 'O' ; 
-
-   //if element is 'X' push it to xClickedArray into the correct index and upadte the currentSymbol accordingly.   
-   if(symbol.textContent === 'X'){
-       this.xClickedArray[index] = 'X';
-       currentSymbol = 'X' ;
-   }   
-   else{
-       this.oClickedArray[index] = 'O';
-       currentSymbol = 'O' ;
-   }
-   //return the last Symbol type( 'X' or 'O' symbol).
-   return currentSymbol;
+isEqualSymbol(a,b,c){
+  return a == b && b == c &&  a != undefined;
 },
  // check if one of the players won the current game.  
-checkForWinner(currentSymbol){
-   let symbolArray ;
+checkForWinner(currentPlayer){
+  let isEqualSymbol = this.isEqualSymbol;
+  let playersMove = this.playersMove;
 
-//check what is the  currentSymbol and update the symbolArray accordingly.
-if(currentSymbol === 'O'){
- symbolArray = this.oClickedArray;
-}
-else{
-symbolArray = this.xClickedArray;
-}
-//checking if we have a winner in the current game :
 //lines 1,2,3 check if there are 3 same symbols in a single row. 
 //lines 4,5,6 check if there are 3 same symbols in a single column. 
-//lines 7,8   check if there are 3 same symbols in a diagonal. 
-  if ((symbolArray[0] === currentSymbol && symbolArray[1] === currentSymbol && symbolArray[2] === currentSymbol)||
-      (symbolArray[3] === currentSymbol && symbolArray[4] === currentSymbol && symbolArray[5] === currentSymbol)||
-      (symbolArray[6] === currentSymbol && symbolArray[7] === currentSymbol && symbolArray[8] === currentSymbol)||
-      (symbolArray[0] === currentSymbol && symbolArray[3] === currentSymbol && symbolArray[6] === currentSymbol)||
-      (symbolArray[1] === currentSymbol && symbolArray[4] === currentSymbol && symbolArray[7] === currentSymbol)||
-      (symbolArray[2] === currentSymbol && symbolArray[5] === currentSymbol && symbolArray[8] === currentSymbol)||
-      (symbolArray[0] === currentSymbol && symbolArray[4] === currentSymbol && symbolArray[8] === currentSymbol)||
-      (symbolArray[2] === currentSymbol && symbolArray[4] === currentSymbol && symbolArray[6] === currentSymbol))
-      { 
-      //We have a winner in the current game so we update the screen with the new score.
+//lines 7,8  check if there are 3 same symbols in a diagonal. 
+if ((isEqualSymbol(playersMove[0],playersMove[1],playersMove[2]))||
+    (isEqualSymbol(playersMove[3],playersMove[4],playersMove[5]))||
+    (isEqualSymbol(playersMove[6],playersMove[7],playersMove[8]))||
+    (isEqualSymbol(playersMove[0],playersMove[3],playersMove[6]))||
+    (isEqualSymbol(playersMove[1],playersMove[4],playersMove[7]))||
+    (isEqualSymbol(playersMove[2],playersMove[5],playersMove[8]))||
+    (isEqualSymbol(playersMove[0],playersMove[4],playersMove[8]))||
+    (isEqualSymbol(playersMove[2],playersMove[4],playersMove[6])))
+      {
         this.gameover = true;
-        this.updateGameScore(currentSymbol); 
-    }
+        this.updateGameScore(currentPlayer); 
+      }
+          
 //if all squares were clicked and we haven't found a winner yet,then we have  a draw.
   if(this.clickedAmount === 9 && !(this.gameover) ){
     alert('Its a draw,keep on trying!');
   }
 },
 // update the screen players score. 
-updateGameScore(currentSymbol){
-if(currentSymbol === 'O'){
+updateGameScore(currentPlayer){
+if(currentPlayer === 'firstPlayer'){
       this.firstPlayerScore ++ ;
     
 //we want to first update the screen and only after the screen upadted we want to alert the message.
@@ -173,11 +143,10 @@ resetGameScore(){
 document.getElementById("firstPlayerScoreValue").textContent = 0;
 document.getElementById("secondPlayerScoreValue").textContent = 0;
 },
-
+ 
 //Reset the the game board.
 resetGameBoard(){
- ticTacToeGame.xClickedArray.length  = 0;
- ticTacToeGame.oClickedArray.length  =  0;
+ ticTacToeGame.playersMove.length  = 0;
  ticTacToeGame.currentPlayer ='firstPlayer';
  ticTacToeGame.clickedAmount = 0 ;
  ticTacToeGame.gameover = false;   
