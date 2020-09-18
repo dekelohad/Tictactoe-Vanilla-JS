@@ -35,8 +35,9 @@
                     <div class="square"></div>
                     <div class="square"></div>
                     <div class="square"></div> 
-                </div>
-<div id = buttonsDiv>
+                </div>         
+
+<div class = buttonsDiv>
     <button id="newGame" class="waves-effect waves-light btn-large">Start a new game</button>
     <button id="resetScore" class="waves-effect waves-light btn-large">Reset Game Score</button>
 </div>
@@ -49,12 +50,18 @@
     <h5 id = "firstPlayerScoreHeader">Player &#8544:    
         <span id ="firstPlayerScoreValue"></span>
     </h5>
-
    <!--create h5 header for the second player score header and adding the firstPlayerScoreHeader class for styling the header. .-->
     <h5 id = "secondPlayerScoreHeader">Player &#8545:
         <span id ="secondPlayerScoreValue"></span>
     </h5>
 </div>
+
+    
+<div class="winning-message" id="winningMessage">
+    <div data-winning-message-text>X WON</div>
+</div>
+
+
     </body>
   <script src="TicTacToeProject.js"></script>
     </html>

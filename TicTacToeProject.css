@@ -78,10 +78,13 @@ div{
       
 }
 
-#buttonsDiv{
+.buttonsDiv{
         margin : 10px;
 }
 
+.buttons-hide{
+        display : none;
+}
 #newGame{
         margin-right : 5px ;
 }
@@ -90,3 +93,32 @@ div{
         font-size:50px;
 }
 
+.winning-message {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-size: 5rem;
+        flex-direction: column;
+        transition-duration: 3s;
+      }
+      .winning-message.show {
+        display: flex;
+      }
+      .winning-message-O {
+        background-color:blue;
+      }
+
+      .winning-message-X {
+        background-color: red;
+      }
+      .winning-message-draw {
+        background-color: rgba(0, 0, 0, .9);
+      }
+      
+      

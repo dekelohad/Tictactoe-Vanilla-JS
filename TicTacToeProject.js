@@ -101,27 +101,39 @@ if ((isEqualSymbol(playersMove[0],playersMove[1],playersMove[2]))||
           
 //if all squares were clicked and we haven't found a winner yet,then we have  a draw.
   if(this.availableMoves === 0 && !(this.gameover) ){
-    alert('Its a draw,keep on trying!');
+      this.updateGameScore('draw'); 
   }
 },
 // update the screen players score. 
 updateGameScore(currentPlayer){
+const winningMessageElement = document.getElementById('winningMessage');
+const winningMessageTextElement = document.querySelector('[data-winning-message-text]');
+const resetButtons = document.getElementsByClassName('buttonsDiv')[0];
+
 if(currentPlayer === 'firstPlayer'){
-      this.firstPlayerScore ++ ;
-    
-//we want to first update the screen and only after the screen upadted we want to alert the message.
-firstPlayerScoreValue.textContent  = this.firstPlayerScore;
-setTimeout(() => {
-   alert('Player 1 Won')},0);
- }
- else{
-     this.secondPlayerScore ++ ;
-    //we want to first update the screen and only after the screen upadted we want to alert the message.
-     //set the text property of the secondPlayerScoreValue span element to be eual to the value of the secondPlayerScore.
+    this.firstPlayerScore ++ ;
+    firstPlayerScoreValue.textContent  = this.firstPlayerScore;
+    winningMessageTextElement.innerText = "O Player Won";
+    winningMessageElement.classList.add('winning-message-O');
+}
+else if(currentPlayer === 'secondPlayer'){
+   this.secondPlayerScore ++ ;
    secondPlayerScoreValue.textContent  = this.secondPlayerScore;
-   setTimeout(() => {
-     alert('Player 2 Won')},0);
+   winningMessageTextElement.innerText = "X Player Won";
+   winningMessageElement.classList.add('winning-message-X');
    }
+else{
+  winningMessageTextElement.innerText = "We Have A Draw";
+  winningMessageElement.classList.add('winning-message-draw');
+}
+setTimeout(function() {
+  winningMessageElement.classList.add('show');
+  resetButtons.classList.add('buttons-hide');
+},500);
+setTimeout(function() {
+  winningMessageElement.classList.remove('show');
+  resetButtons.classList.remove('buttons-hide');
+},1500);
 },
 
 //delete all the colorful boxes that are currently displayed on the screen.
